@@ -10,14 +10,11 @@
       margin: 0;
       padding: 0;
       font-family: 'Orbitron', sans-serif;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: #ffffff;
+      background: #f9f9f9;
+      color: #000;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      height: 100vh;
-      overflow-x: hidden;
     }
 
     .marquee-container {
@@ -41,8 +38,8 @@
     }
 
     .card {
-      margin-top: 30px;
-      background: rgba(255, 255, 255, 0.05);
+      margin-top: 20px;
+      background: #ffffff;
       padding: 30px;
       border-radius: 16px;
       border: 4px solid;
@@ -52,126 +49,151 @@
       text-align: center;
       width: 90%;
       max-width: 700px;
-      box-shadow: 0 0 25px rgba(0, 255, 255, 0.5);
-    }
-
-    .card h1 {
-      margin-bottom: 20px;
-      font-size: 26px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     }
 
     input[type="text"] {
       width: 100%;
       padding: 14px;
-      border: none;
+      border: 2px solid #ccc;
       border-radius: 10px;
       font-size: 16px;
-      outline: none;
-      margin-bottom: 20px;
-      background: #fff;
-      color: #000;
-      box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+      margin-bottom: 15px;
     }
 
     button {
       padding: 10px 20px;
-      background: #00ffee;
+      background: #00cfff;
       color: #000;
       border: none;
       border-radius: 8px;
       font-weight: bold;
       cursor: pointer;
-      transition: 0.3s;
-    }
-
-    button:hover {
-      background: #00aaff;
     }
 
     #answerBox {
-      font-size: 18px;
-      padding: 15px;
       margin-top: 20px;
-      background: rgba(0, 0, 0, 0.5);
-      border: 3px dashed #0ff;
+      padding: 15px;
+      background: #e0f7fa;
+      border: 3px dashed #00eaff;
       border-radius: 10px;
       animation: glow 1s infinite alternate;
     }
 
-    .led-box {
-      border: 3px solid transparent;
-      border-image: linear-gradient(45deg, #0ff, #f0f, #0f0) 1;
-    }
-
     @keyframes glow {
-      from { box-shadow: 0 0 10px #0ff; }
-      to   { box-shadow: 0 0 20px #0ff, 0 0 30px #0ff; }
+      from { box-shadow: 0 0 5px #00eaff; }
+      to   { box-shadow: 0 0 15px #00eaff, 0 0 25px #00eaff; }
     }
 
     .hidden { display: none; }
 
     .suggest {
-      margin-top: 30px;
-      background: rgba(255,255,255,0.1);
-      padding: 15px;
+      margin-top: 25px;
+      text-align: left;
+    }
+
+    .public-list {
+      margin-top: 40px;
+      width: 90%;
+      max-width: 800px;
+    }
+
+    .qa-item {
+      background: #ffffff;
+      border: 3px solid transparent;
+      border-image: linear-gradient(45deg, #0ff, #f0f, #0f0) 1;
       border-radius: 10px;
-      color: #eee;
-      border: 1px dashed #999;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    .footer-marquee {
+      margin-top: 50px;
+      width: 100%;
+      background: #e0e0e0;
+      color: #000;
+      padding: 10px 0;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
+
   <div class="marquee-container">
     <div class="marquee">⚡ Nhập từ khóa hoặc câu hỏi liên quan phim hoạt hình Trung Quốc để tra cứu nhanh! ⚡</div>
   </div>
 
   <div class="card">
-    <h1>🔍 Huyền Cửu Thiên - Thiên Cơ Các</h1>
+    <h1>🔍 Tra cứu Thiên Cơ Các</h1>
     <input type="text" id="searchBox" placeholder="Nhập từ khóa hoặc câu hỏi..." />
-    <button id="searchButton">Tìm kiếm</button>
-    <div id="answerBox" class="hidden led-box"></div>
+    <button onclick="search()">Tìm kiếm</button>
+    <div id="answerBox" class="hidden"></div>
 
     <div class="suggest">
       <h3>📌 Gợi ý:</h3>
       <ul>
         <li>ai là mẹ của đường tam</li>
-        <li>bạch tiểu thuần là ai</li>
         <li>vũ hồn của tiểu vũ là gì</li>
         <li>pháp bảo của tiêu viêm</li>
       </ul>
     </div>
   </div>
 
+  <div class="public-list" id="publicList"></div>
+
+  <div class="footer-marquee">
+    <marquee>📢 Xem danh sách đầy đủ bên dưới hoặc dùng ô tìm kiếm để tra nhanh theo từ khóa! 📢</marquee>
+  </div>
+
   <script>
     const qaList = [
       { question: "ai là mẹ của đường tam", answer: "A Ngân" },
-      { question: "bạch tiểu thuần là ai", answer: "Nhân vật chính trong Nhất Niệm Vĩnh Hằng" },
+      { question: "pháp bảo của tiêu viêm", answer: "Huyền Trọng Xích" },
       { question: "vũ hồn của tiểu vũ là gì", answer: "Nhu Cốt Thỏ" },
-      { question: "pháp bảo của tiêu viêm", answer: "Huyền Trọng Xích" }
+      { question: "tiêu viêm hẹn ước với ai", answer: "Nạp Lan Yên Nhiên" },
+      { question: "đường tam có bao nhiêu vũ hồn", answer: "Hai vũ hồn" }
     ];
 
-    document.getElementById("searchButton").addEventListener("click", () => {
-      const query = document.getElementById("searchBox").value.trim().toLowerCase();
-      const resultBox = document.getElementById("answerBox");
+    function normalize(str) {
+      return str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
 
-      if (!query) {
-        resultBox.classList.remove("hidden");
-        resultBox.innerHTML = "❗ Bạn chưa nhập từ khóa.";
+    function search() {
+      const input = normalize(document.getElementById("searchBox").value.trim());
+      const box = document.getElementById("answerBox");
+
+      if (!input) {
+        box.innerHTML = "❗ Vui lòng nhập từ khóa.";
+        box.classList.remove("hidden");
         return;
       }
 
-      const match = qaList.find(item =>
-        item.question.toLowerCase().includes(query)
+      const results = qaList.filter(q =>
+        normalize(q.question).startsWith(input) ||
+        normalize(q.question).includes(input)
       );
 
-      if (match) {
-        resultBox.classList.remove("hidden");
-        resultBox.innerHTML = `<p><strong>Câu hỏi:</strong> ${match.question}</p><p><strong>Đáp án:</strong> ${match.answer}</p>`;
+      if (results.length > 0) {
+        box.classList.remove("hidden");
+        box.innerHTML = results.map(q =>
+          `<p><strong>❓ ${q.question}</strong><br/>💡 ${q.answer}</p>`
+        ).join("<hr/>");
       } else {
-        resultBox.classList.remove("hidden");
-        resultBox.innerHTML = `❌ Không tìm thấy kết quả cho: "<strong>${query}</strong>"`;
+        box.classList.remove("hidden");
+        box.innerHTML = `❌ Không tìm thấy kết quả phù hợp cho: "<strong>${input}</strong>"`;
       }
+    }
+
+    // Hiển thị toàn bộ danh sách công khai
+    const listDiv = document.getElementById("publicList");
+    qaList.forEach(q => {
+      const div = document.createElement("div");
+      div.className = "qa-item";
+      div.innerHTML = `<strong>❓ ${q.question}</strong><br/>💡 ${q.answer}`;
+      listDiv.appendChild(div);
     });
   </script>
+
 </body>
 </html>
