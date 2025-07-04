@@ -1,1 +1,177 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Thiên Cơ Các - HH3D</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100vh;
+      overflow-x: hidden;
+    }
 
+    .marquee-container {
+      width: 100%;
+      background: #ff0080;
+      color: white;
+      padding: 10px 0;
+      font-weight: bold;
+      overflow: hidden;
+    }
+
+    .marquee {
+      display: inline-block;
+      white-space: nowrap;
+      animation: marquee 15s linear infinite;
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(100%); }
+      to { transform: translateX(-100%); }
+    }
+
+    .card {
+      margin-top: 30px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 30px;
+      border-radius: 16px;
+      border: 4px solid;
+      border-image-slice: 1;
+      border-width: 4px;
+      border-image-source: linear-gradient(45deg, #00f0ff, #ff00ff, #00ff88);
+      text-align: center;
+      width: 90%;
+      max-width: 700px;
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.5);
+    }
+
+    .card h1 {
+      margin-bottom: 20px;
+      font-size: 26px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      outline: none;
+      margin-bottom: 20px;
+      background: #fff;
+      color: #000;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+    }
+
+    button {
+      padding: 10px 20px;
+      background: #00ffee;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #00aaff;
+    }
+
+    #answerBox {
+      font-size: 18px;
+      padding: 15px;
+      margin-top: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 3px dashed #0ff;
+      border-radius: 10px;
+      animation: glow 1s infinite alternate;
+    }
+
+    .led-box {
+      border: 3px solid transparent;
+      border-image: linear-gradient(45deg, #0ff, #f0f, #0f0) 1;
+    }
+
+    @keyframes glow {
+      from { box-shadow: 0 0 10px #0ff; }
+      to   { box-shadow: 0 0 20px #0ff, 0 0 30px #0ff; }
+    }
+
+    .hidden { display: none; }
+
+    .suggest {
+      margin-top: 30px;
+      background: rgba(255,255,255,0.1);
+      padding: 15px;
+      border-radius: 10px;
+      color: #eee;
+      border: 1px dashed #999;
+    }
+  </style>
+</head>
+<body>
+  <div class="marquee-container">
+    <div class="marquee">⚡ Nhập từ khóa hoặc câu hỏi liên quan phim hoạt hình Trung Quốc để tra cứu nhanh! ⚡</div>
+  </div>
+
+  <div class="card">
+    <h1>🔍 Huyền Cửu Thiên - Thiên Cơ Các</h1>
+    <input type="text" id="searchBox" placeholder="Nhập từ khóa hoặc câu hỏi..." />
+    <button id="searchButton">Tìm kiếm</button>
+    <div id="answerBox" class="hidden led-box"></div>
+
+    <div class="suggest">
+      <h3>📌 Gợi ý:</h3>
+      <ul>
+        <li>ai là mẹ của đường tam</li>
+        <li>bạch tiểu thuần là ai</li>
+        <li>vũ hồn của tiểu vũ là gì</li>
+        <li>pháp bảo của tiêu viêm</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const qaList = [
+      { question: "ai là mẹ của đường tam", answer: "A Ngân" },
+      { question: "bạch tiểu thuần là ai", answer: "Nhân vật chính trong Nhất Niệm Vĩnh Hằng" },
+      { question: "vũ hồn của tiểu vũ là gì", answer: "Nhu Cốt Thỏ" },
+      { question: "pháp bảo của tiêu viêm", answer: "Huyền Trọng Xích" }
+    ];
+
+    document.getElementById("searchButton").addEventListener("click", () => {
+      const query = document.getElementById("searchBox").value.trim().toLowerCase();
+      const resultBox = document.getElementById("answerBox");
+
+      if (!query) {
+        resultBox.classList.remove("hidden");
+        resultBox.innerHTML = "❗ Bạn chưa nhập từ khóa.";
+        return;
+      }
+
+      const match = qaList.find(item =>
+        item.question.toLowerCase().includes(query)
+      );
+
+      if (match) {
+        resultBox.classList.remove("hidden");
+        resultBox.innerHTML = `<p><strong>Câu hỏi:</strong> ${match.question}</p><p><strong>Đáp án:</strong> ${match.answer}</p>`;
+      } else {
+        resultBox.classList.remove("hidden");
+        resultBox.innerHTML = `❌ Không tìm thấy kết quả cho: "<strong>${query}</strong>"`;
+      }
+    });
+  </script>
+</body>
+</html>
